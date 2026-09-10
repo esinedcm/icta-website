@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import ThemeToggle from './ThemeToggle';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -40,7 +39,6 @@ export default function Navbar() {
         </div>
 
         <div className={styles.navActions}>
-          <ThemeToggle />
           <button 
             className={`${styles.hamburger} ${isOpen ? styles.open : ''}`} 
             onClick={() => setIsOpen(!isOpen)}

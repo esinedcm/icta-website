@@ -1,23 +1,24 @@
 :root {
-  /* Rich, Established Color Palette */
-  --color-primary: #d4af37; /* Metallic Gold */
-  --color-primary-dark: #b5952f;
-  --color-secondary: #008080; /* Teal / Rich Green */
-  --color-background: #1e3a8a; /* Rich Royal Blue */
-  --color-surface: rgba(15, 23, 42, 0.6);
-  --color-surface-dark: rgba(15, 23, 42, 0.85);
-  --color-text-main: #f8fafc;
-  --color-text-muted: #cbd5e1;
+  /* Classic ICTA Color Palette */
+  --color-primary: #008ec6; /* ICTA Blue */
+  --color-primary-dark: #006b96;
+  --color-secondary: #f3f4f6; /* Soft Gray */
+  
+  /* Default Light Theme */
+  --color-background: #ffffff; 
+  --color-surface: #ffffff; 
+  --color-surface-dark: #f8f9fa;
+  --color-text-main: #444444; /* Charcoal text */
+  --color-text-muted: #6b7280;
   
   /* Text Gradients */
-  --gradient-logo: linear-gradient(135deg, #fff0b3 0%, var(--color-primary) 50%, #b5952f 100%);
+  --gradient-logo: linear-gradient(135deg, #008ec6 0%, #006b96 100%);
   
-  /* Glassmorphism Tokens */
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-  --glass-blur: blur(16px);
-  --glass-radius: 12px;
+  /* Clean, Subtle Card Tokens */
+  --card-bg: var(--color-surface);
+  --card-border: 1px solid #e5e7eb; /* Soft border */
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Soft drop shadow */
+  --card-radius: 8px; /* Soft, modern corners */
 
   /* Spacing */
   --spacing-sm: 0.5rem;
@@ -26,20 +27,16 @@
   --spacing-xl: 4rem;
 }
 
-/* Light Theme (Warm Cream Aesthetic) */
-html.light-theme {
-  --color-background: #fcfaf5; /* Soft, warm cream */
-  --color-surface: rgba(255, 255, 255, 0.7);
-  --color-surface-dark: rgba(255, 255, 255, 0.95);
-  --color-text-main: #1e293b; /* Charcoal */
-  --color-text-muted: #475569;
+/* Dark Theme (Classic Navy/Charcoal) */
+html.dark-theme {
+  --color-background: #111827;
+  --color-surface: #1f2937;
+  --color-surface-dark: #374151;
+  --color-text-main: #f9fafb;
+  --color-text-muted: #9ca3af;
   
-  /* Darker, high-contrast gold for light mode */
-  --gradient-logo: linear-gradient(135deg, #b5952f 0%, #8a6d1c 100%);
-  
-  --glass-bg: rgba(255, 255, 255, 0.4);
-  --glass-border: rgba(212, 175, 55, 0.3); /* Slightly stronger gold border on light bg */
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --card-border: 1px solid #374151;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -58,19 +55,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Texture overlay for an established feel */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.03;
-  z-index: -1;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-}
+/* Texture overlay removed for a cleaner, flatter look */
 
 a {
   color: var(--color-primary);
@@ -83,33 +68,29 @@ a:hover {
 }
 
 .glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  border-radius: var(--glass-radius);
+  /* Renamed functionally, but keeping class name for now so components don't break until updated */
+  background: var(--card-bg);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--card-radius);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .btn {
   display: inline-block;
-  padding: 0.8rem 2rem;
-  border-radius: var(--glass-radius);
-  background: linear-gradient(135deg, var(--color-primary) 0%, #fff0b3 50%, var(--color-primary-dark) 100%);
-  background-size: 200% auto;
-  color: #0f172a; /* Dark text on gold button */
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  padding: 0.6rem 2rem;
+  border-radius: 50px;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: 600;
   cursor: pointer;
-  border: none;
-  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-  animation: shimmer 4s linear infinite;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-  opacity: 0.9;
+  background: var(--color-primary-dark);
 }
 
 /* WordPress Content Styling */
@@ -136,17 +117,17 @@ a:hover {
 .wp-content h4, 
 .wp-content h5, 
 .wp-content h6 {
-  font-family: var(--font-outfit), sans-serif;
+  font-family: var(--font-inter), sans-serif;
   color: var(--color-text-main);
   margin-top: var(--spacing-lg);
   margin-bottom: var(--spacing-sm);
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
-.wp-content h1 { font-size: 2.5rem; }
-.wp-content h2 { font-size: 2rem; }
-.wp-content h3 { font-size: 1.75rem; }
+.wp-content h1 { font-size: 3rem; }
+.wp-content h2 { font-size: 2.5rem; }
+.wp-content h3 { font-size: 2rem; }
 .wp-content h4 { font-size: 1.5rem; }
 
 .wp-content a {
@@ -154,6 +135,7 @@ a:hover {
   text-decoration: underline;
   text-decoration-color: transparent;
   transition: text-decoration-color 0.2s;
+  font-weight: 700;
 }
 
 .wp-content a:hover {
@@ -170,17 +152,23 @@ a:hover {
 }
 
 .wp-content blockquote {
-  border-left: 4px solid var(--color-primary);
+  border-left: 6px solid var(--color-primary);
   padding-left: var(--spacing-md);
   margin-left: 0;
   margin-right: 0;
   font-style: italic;
-  color: var(--color-text-main);
+  font-weight: 700;
+  font-size: 1.2rem;
+  background: var(--color-surface);
+  padding: 1rem;
 }
 
-/* Global Animations */
-@keyframes shimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Ensure images within WordPress content are responsive */
+.wp-content img,
+.wp-content figure {
+  max-width: 100%;
+  height: auto !important; /* Overrides inline heights to maintain aspect ratio */
+  border-radius: var(--card-radius);
+  margin: var(--spacing-md) auto;
+  display: block;
 }

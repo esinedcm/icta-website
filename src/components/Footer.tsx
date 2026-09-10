@@ -4,17 +4,7 @@ import styles from './Footer.module.css';
 import { stripHtml } from '@/lib/utils';
 import { draftMode } from 'next/headers';
 
-interface WPPost {
-  id: number;
-  title: { rendered: string };
-  excerpt: { rendered: string };
-  content: { rendered: string };
-  _embedded?: {
-    "wp:featuredmedia"?: Array<{
-      source_url: string;
-    }>;
-  };
-}
+
 
 export default async function Footer() {
   const InstagramIcon = () => (
@@ -31,31 +21,6 @@ export default async function Footer() {
       <polyline points="22,6 12,13 2,6"></polyline>
     </svg>
   );
-
-  let sponsors: WPPost[] = [];
-  try {
-    const { isEnabled } = await draftMode();
-    let sponsorsUrl = "https://intercountytennis.com/wp-json/wp/v2/sponsors?per_page=10&_embed=1&orderby=menu_order&order=asc";
-    const fetchOptions: RequestInit = {
-      next: { revalidate: 60 }
-    };
-    
-    if (isEnabled) {
-      sponsorsUrl += "&status=any";
-      fetchOptions.cache = "no-store";
-      if (process.env.WP_APPLICATION_PASSWORD) {
-        const base64Auth = Buffer.from(process.env.WP_APPLICATION_PASSWORD).toString('base64');
-        fetchOptions.headers = { 'Authorization': `Basic ${base64Auth}` };
-      }
-    }
-    
-    const res = await fetch(sponsorsUrl, fetchOptions);
-    if (res.ok) {
-      sponsors = await res.json();
-    }
-  } catch (err) {
-    console.error("Failed to fetch sponsors for footer", err);
-  }
 
   return (
     <footer className={`${styles.footer} glass-panel`}>
@@ -81,43 +46,6 @@ export default async function Footer() {
           </div>
         </div>
       </div>
-      
-      {sponsors.length > 0 && (
-        <div className={styles.footerSponsorsSection}>
-          <div className={styles.sponsorLogos}>
-            {sponsors.map((sponsor) => {
-              const mainLogoUrl = sponsor._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-              const contentText = stripHtml(sponsor.content?.rendered || "").trim();
-              const altLogoUrl = contentText.startsWith('http') ? contentText : null;
-              const logoUrl = altLogoUrl || mainLogoUrl;
-              
-              const linkUrl = stripHtml(sponsor.excerpt?.rendered || "").trim();
-              const sponsorTitle = stripHtml(sponsor.title.rendered);
-              
-              const SponsorInner = () => (
-                <div className={styles.sponsorLogoCard}>
-                  {logoUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={logoUrl} alt={sponsorTitle} className={styles.sponsorImage} />
-                  ) : (
-                    <span style={{ padding: '5px', textAlign: 'center' }}>{sponsorTitle}</span>
-                  )}
-                </div>
-              );
-
-              return linkUrl ? (
-                <a key={sponsor.id} href={linkUrl.startsWith('http') ? linkUrl : `https://${linkUrl}`} target="_blank" rel="noopener noreferrer">
-                  <SponsorInner />
-                </a>
-              ) : (
-                <div key={sponsor.id}>
-                  <SponsorInner />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       <div className={styles.bottom}>
         <p>&copy; {new Date().getFullYear()} InterCounty Tennis Association. All rights reserved.</p>
